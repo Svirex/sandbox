@@ -5,11 +5,14 @@
 #ifndef SANDBOX_GAME_H
 #define SANDBOX_GAME_H
 
+#include <vector>
+#include <SDL2/SDL.h>
+
 class Renderer;
+class Actor;
 
 class Game {
 public:
-
   Game();
 
   bool initialize();
@@ -18,8 +21,11 @@ public:
 
   void shutdown();
 
-private:
+  void addActor(Actor *actor);
 
+  void removeActor(Actor *actor);
+
+private:
   void processInput();
 
   void updateGame();
@@ -31,6 +37,12 @@ private:
   bool mUpdatingActor;
 
   Renderer *mRenderer;
+
+  std::vector<Actor *> mActors;
+
+  std::vector<Actor *> mPendingActors;
+
+  Uint32 mTicksCount;
 };
 
 #endif // SANDBOX_GAME_H
