@@ -1,0 +1,16 @@
+#version 330 core
+
+uniform mat4 uWorldTransformation;
+uniform mat4 uViewProjection;
+
+layout(location = 0) in vec3 position;
+
+out vec4 vertexColor;
+
+void main() {
+    vec4 pos = vec4(position, 1.0);
+
+    gl_Position = uViewProjection * uWorldTransformation * pos;
+
+    vertexColor = vec4(0.3, 0.3, 0.3, 1.0);
+}

@@ -26,6 +26,8 @@ public:
   void removeActor(Actor *actor);
 
 private:
+  void loadData();
+
   void processInput();
 
   void updateGame();
