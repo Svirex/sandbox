@@ -1,0 +1,12 @@
+#version 330
+
+uniform mat4 uWorldTransformation;
+uniform mat4 uViewProjection;
+
+layout(location = 0) in vec3 position;
+
+void main() {
+    vec4 pos = vec4(position, 1.0);
+
+    gl_Position = uViewProjection * uWorldTransformation * pos;
+}

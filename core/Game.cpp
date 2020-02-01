@@ -28,6 +28,7 @@ bool Game::initialize() {
     mRenderer = nullptr;
     return false;
   }
+  loadData();
   return true;
 }
 
@@ -104,5 +105,11 @@ void Game::removeActor(Actor *actor) {
   if (iter != mActors.end()) {
     std::iter_swap(iter, --mActors.end());
     mActors.pop_back();
+  }
+}
+
+void Game::loadData() {
+  if (mRenderer) {
+    mRenderer->loadShader("basicMesh", "shaders/basicMesh.vertex", "shaders/basicMesh.fragment");
   }
 }
