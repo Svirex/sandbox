@@ -9,6 +9,7 @@
 
 #include <glm/gtc/quaternion.hpp>
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 class Game;
 class Component;
@@ -25,11 +26,11 @@ public:
 
   virtual ~Actor();
 
-  void setPosition(glm::vec3 &position);
+  void setPosition(const glm::vec3 &position);
 
-  void setRotation(glm::quat &rotation);
+  void setRotation(const glm::quat &rotation);
 
-  void setScale(float scale);
+  void setScale(const glm::vec3 scale);
 
   void addComponent(Component *component);
 
@@ -41,6 +42,10 @@ public:
 
   State getState() const;
 
+  Game *getGame() const;
+
+  glm::mat4 getWorldTransformation();
+
 protected:
   virtual void tick(float deltaTime);
 
@@ -50,7 +55,7 @@ private:
 
   glm::quat mRotation;
 
-  float mScale;
+  glm::vec3 mScale;
 
   Game *mGame;
 
@@ -59,6 +64,10 @@ private:
   State mState;
 
   void updateComponents(float deltaTime);
+
+  bool mRecomputeWorldTransformation;
+
+  glm::mat4 mWorldTransformation;
 };
 
 #endif // SANDBOX_ACTOR_H

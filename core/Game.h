@@ -25,6 +25,8 @@ public:
 
   void removeActor(Actor *actor);
 
+  Renderer *getRenderer() const;
+
 private:
   void loadData();
 

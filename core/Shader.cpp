@@ -2,9 +2,12 @@
 // Created by svirex on 31.01.2020.
 //
 
-#include <SDL2/SDL.h>
+#include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include <SDL2/SDL.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
 
@@ -34,13 +37,9 @@ bool Shader::load(const std::string &vertexShaderFile,
   return true;
 }
 
-void Shader::unload() {
-  glDeleteProgram(mShaderProgram);
-}
+void Shader::unload() { glDeleteProgram(mShaderProgram); }
 
-void Shader::setActive() {
-  glUseProgram(mShaderProgram);
-}
+void Shader::setActive() { glUseProgram(mShaderProgram); }
 
 bool Shader::compileShader(const std::string &filePath, GLenum shaderType,
                            GLuint &outShader) {
@@ -87,8 +86,7 @@ bool Shader::isValidProgram(GLuint program) {
 
   glGetProgramiv(program, GL_LINK_STATUS, &status);
 
-  if (status != GL_TRUE)
-  {
+  if (status != GL_TRUE) {
     char buffer[512];
     memset(buffer, 0, 512);
     glGetProgramInfoLog(mShaderProgram, 511, nullptr, buffer);
@@ -97,4 +95,20 @@ bool Shader::isValidProgram(GLuint program) {
   }
 
   return true;
+}
+
+void Shader::setUniform(const char *uniform, const glm::mat4 &matrix) {
+
+  GLint location = glGetUniformLocation(mShaderProgram, uniform);
+  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+  GLenum err;
+  while((err = glGetError()) != GL_NO_ERROR)
+  {
+    std::cout << "setUniform ERROR" << err << std::endl;
+  }
+}
+
+void Shader::setUniform(const char *uniform, const glm::vec3 &vector) {
+  GLint location = glGetUniformLocation(mShaderProgram, uniform);
+  glUniform3fv(location, 1, glm::value_ptr(vector));
 }
