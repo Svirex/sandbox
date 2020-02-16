@@ -8,6 +8,7 @@
 #include <string>
 
 #include <GL/glew.h>
+#include <glm/mat4x4.hpp>
 
 class Shader {
 public:
@@ -21,6 +22,10 @@ public:
 
   void setActive();
 
+  void setUniform(const char *uniform, const glm::mat4 &matrix);
+
+  void setUniform(const char *uniform, const glm::vec3 &vector);
+
 private:
   GLuint mVertexShader;
 
@@ -33,6 +38,7 @@ private:
   bool isCompiled(GLuint shader);
 
   bool isValidProgram(GLuint program);
+
 };
 
 #endif // SANDBOX_SHADER_H

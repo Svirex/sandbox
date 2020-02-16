@@ -6,10 +6,12 @@
 #include <vector>
 
 #include <SDL2/SDL.h>
+#include <glm/ext/quaternion_trigonometric.hpp>
 
 #include "Game.h"
 #include "Renderer.h"
 #include "Actor.h"
+#include "components/MeshComponent.h"
 
 Game::Game()
     : mIsRunning(false), mUpdatingActor(false), mRenderer(nullptr),
@@ -86,7 +88,9 @@ void Game::updateGame() {
   }
 }
 
-void Game::generateOutput() {}
+void Game::generateOutput() {
+  mRenderer->draw();
+}
 
 void Game::addActor(Actor *actor) {
   if(mUpdatingActor) {
@@ -111,5 +115,14 @@ void Game::removeActor(Actor *actor) {
 void Game::loadData() {
   if (mRenderer) {
     mRenderer->loadShader("basicMesh", "shaders/basicMesh.vertex", "shaders/basicMesh.fragment");
+    auto *actor = new Actor(this);
+    actor->setPosition(glm::vec3(0.0f, 0.0f, 20.0f));
+    actor->setScale(glm::vec3(2.0f));
+//    actor->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+
+    auto *meshComponent = new MeshComponent(actor);
+    meshComponent->setMesh(mRenderer->getMesh("assets/tree.obj"));
   }
 }
+
+Renderer *Game::getRenderer() const { return mRenderer; }

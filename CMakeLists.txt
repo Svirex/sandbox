@@ -16,10 +16,14 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 
 
-add_executable(sandbox main.cpp core/Game.cpp core/Game.h core/Renderer.cpp core/Renderer.h core/Actor.cpp core/Actor.h core/Component.cpp core/Component.h core/Shader.cpp core/Shader.h)
+add_executable(sandbox main.cpp core/Game.cpp core/Game.h core/Renderer.cpp core/Renderer.h core/Actor.cpp core/Actor.h core/Component.cpp core/Component.h core/Shader.cpp core/Shader.h core/Mesh.cpp core/Mesh.h core/utils/MeshLoader.cpp core/utils/MeshLoader.h core/VertexArray.cpp core/VertexArray.h core/components/MeshComponent.cpp core/components/MeshComponent.h)
 
 target_link_libraries(sandbox ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} GLEW)
 
 add_custom_command(TARGET sandbox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/shaders/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/shaders)
+
+add_custom_command(TARGET sandbox POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)
