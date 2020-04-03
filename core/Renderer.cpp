@@ -3,9 +3,11 @@
 //
 
 #include <algorithm>
+#include <iostream>
 
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 #include "Game.h"
 #include "Renderer.h"
@@ -15,8 +17,8 @@
 
 Renderer::Renderer(Game *game)
     : mWindow(nullptr), mGame(game), mContext(nullptr) {
-  mView = glm::lookAt(glm::vec3(10.0f, 1.0f, 15.0f), glm::vec3(0.0f, 0.0f, 20.0f),
-                      glm::vec3(0.0f, 1.0f, 0.0f));
+  mView = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+                      glm::vec3(0.0f, 0.0f, 1.0f));
 //  mView = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
   mProjection = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.1f, 1000.0f);
 }
@@ -36,6 +38,7 @@ bool Renderer::initialize(float screenWidth, float screenHeight) {
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
+
   mWindow = SDL_CreateWindow("Sandbox", 100, 100, static_cast<int>(mScreenWidth),
                              static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
   if (!mWindow) {
@@ -44,6 +47,8 @@ bool Renderer::initialize(float screenWidth, float screenHeight) {
   }
 
   mContext = SDL_GL_CreateContext(mWindow);
+
+//  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   // Initialize GLEW
   glewExperimental = GL_TRUE;
@@ -82,6 +87,11 @@ Shader *Renderer::getShader(const std::string &shaderName) {
 void Renderer::shutdown() {
   for (auto &shader : mShaders) {
     shader.second->unload();
+    delete shader.second;
+  }
+
+  for (auto &mesh: mMeshes) {
+    delete mesh.second;
   }
   SDL_GL_DeleteContext(mContext);
   SDL_DestroyWindow(mWindow);
@@ -129,4 +139,9 @@ void Renderer::draw() {
 
   glDisable(GL_DEPTH_TEST);
   SDL_GL_SwapWindow(mWindow);
+}
+
+void Renderer::setViewMatrix(const glm::mat4 &view) {
+  mView = view;
+//  std::cout << "Renderer::setViewMatrix" << glm::to_string(mView[3]) << std::endl;
 }

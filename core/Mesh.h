@@ -11,10 +11,13 @@
 class Renderer;
 class VertexArray;
 class Shader;
+class MeshLoader;
 
 class Mesh {
 public:
-  Mesh();
+  Mesh() = default;
+
+  ~Mesh();
 
   bool load(const std::string &filePath, Renderer *renderer);
 
@@ -23,9 +26,11 @@ public:
   VertexArray *getVertexArray() const;
 
 private:
-  VertexArray *mVertexArray;
+  VertexArray *mVertexArray = nullptr;
 
-  Shader *mShader;
+  Shader *mShader = nullptr;
+
+  MeshLoader *mMeshLoader = nullptr;
 };
 
 #endif // SANDBOX_MESH_H

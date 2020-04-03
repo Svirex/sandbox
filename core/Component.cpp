@@ -16,3 +16,5 @@ Component::~Component() {
 int Component::getUpdateOrder() const { return mUpdateOrder; }
 
 void Component::update(float deltaTime) {}
+
+void Component::processInput(const InputState &input) {}

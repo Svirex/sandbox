@@ -13,6 +13,7 @@
 
 class Game;
 class Component;
+class InputState;
 
 class Actor {
 public:
@@ -28,9 +29,13 @@ public:
 
   void setPosition(const glm::vec3 &position);
 
+  const glm::vec3 &getPosition() const;
+
   void setRotation(const glm::quat &rotation);
 
-  void setScale(const glm::vec3 scale);
+  void setScale(const glm::vec3 &scale);
+
+  const glm::quat &getRotation() const;
 
   void addComponent(Component *component);
 
@@ -45,6 +50,16 @@ public:
   Game *getGame() const;
 
   glm::mat4 getWorldTransformation();
+
+  void computeWorldTransformation();
+
+  void processInput(const InputState &input);
+
+  virtual void actorInput(const InputState &input);
+
+  glm::vec3 getForwardVector() const;
+
+  glm::vec3 getLeftVector() const;
 
 protected:
   virtual void tick(float deltaTime);

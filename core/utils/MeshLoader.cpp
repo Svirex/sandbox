@@ -40,7 +40,7 @@ bool MeshLoader::load(const std::string &filePath, std::vector<GLfloat> &vertex,
     }
 
     std::unordered_map<std::pair<int, int>, GLuint, pair_hash> vertNormToIndex;
-    size_t index = 0;
+    GLuint index = 0;
 
     for (auto &shape : shapes) {
       // Loop over faces(polygon)
@@ -54,7 +54,7 @@ bool MeshLoader::load(const std::string &filePath, std::vector<GLfloat> &vertex,
           auto vertNormPair = std::make_pair(idx.vertex_index, idx.normal_index);
           auto iter = vertNormToIndex.find(vertNormPair);
           if (iter != vertNormToIndex.end()) {
-            indices.push_back(iter->second);
+            indices.emplace_back(iter->second);
           } else {
             vertex.emplace_back(attrib.vertices[3 * idx.vertex_index + 0]);
             vertex.emplace_back(attrib.vertices[3 * idx.vertex_index + 1]);
@@ -66,37 +66,40 @@ bool MeshLoader::load(const std::string &filePath, std::vector<GLfloat> &vertex,
             indices.emplace_back(index);
 
             vertNormToIndex[vertNormPair] = index;
+            ++index;
           }
-          ++index;
         }
         index_offset += fv;
       }
     }
   } else if (fileType == ETEST) {
     vertex = std::vector<GLfloat>({
-      -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
-      0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
-      0.5f, 1.0f, 0.5f, 0.0f, 1.0f, 0.0f,
-      -0.5f, 1.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-      -0.5f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f,
-      0.5f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f,
-      0.5f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f,
-      -0.5f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f,
+//      -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+//      0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+//      0.5f, 1.0f, 0.5f, 0.0f, 1.0f, 0.0f,
+//      -0.5f, 1.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+//      -0.5f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f,
+//      0.5f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f,
+//      0.5f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f,
+//      -0.5f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
     });
 
     indices = std::vector<GLuint>({
         0,2,1,
-        0,3,2,
-        5,1,2,
-        5,6,2,
-        5,4,7,
-        5,6,7,
-        0,4,7,
-        0,3,7,
-        3,2,6,
-        3,7,6,
-        0,1,5,
-        0,4,5
+//        0,3,2,
+//        5,1,2,
+//        5,6,2,
+//        5,4,7,
+//        5,6,7,
+//        0,4,7,
+//        0,3,7,
+//        3,2,6,
+//        3,7,6,
+//        0,1,5,
+//        0,4,5
     });
   }
 
@@ -104,5 +107,5 @@ bool MeshLoader::load(const std::string &filePath, std::vector<GLfloat> &vertex,
 }
 
 MeshLoader::FileType MeshLoader::checkFileType(const std::string &filePath) {
-  return ETEST;
+  return EOBJ;
 }

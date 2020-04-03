@@ -12,13 +12,23 @@
 
 const std::string SHADER_NAME = "basicMesh";
 
-Mesh::Mesh(): mVertexArray(nullptr), mShader(nullptr) {}
+//Mesh::Mesh(): mVertexArray(nullptr), mShader(nullptr) {}
+
+Mesh::~Mesh() {
+  delete mVertexArray;
+  mVertexArray = nullptr;
+
+  delete mMeshLoader;
+  mMeshLoader = nullptr;
+}
 
 bool Mesh::load(const std::string &filePath, Renderer *renderer) {
-  auto loader = new MeshLoader();
+  if (!mMeshLoader) {
+    mMeshLoader = new MeshLoader();
+  }
   std::vector<GLfloat> vertex;
   std::vector<GLuint> indices;
-  if(!loader->load(filePath, vertex, indices)) {
+  if(!mMeshLoader->load(filePath, vertex, indices)) {
     return false;
   }
   mVertexArray = new VertexArray(vertex.data(), vertex.size(), indices.data(), indices.size());

@@ -42,6 +42,8 @@ public:
 
   void draw();
 
+  void setViewMatrix(const glm::mat4 &view);
+
 private:
   SDL_Window *mWindow;
 

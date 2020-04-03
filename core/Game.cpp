@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <iostream>
 
 #include <SDL2/SDL.h>
 #include <glm/ext/quaternion_trigonometric.hpp>
@@ -12,6 +13,8 @@
 #include "Renderer.h"
 #include "Actor.h"
 #include "components/MeshComponent.h"
+#include "InputSystem.h"
+#include "actors/FPSActor.h"
 
 Game::Game()
     : mIsRunning(false), mUpdatingActor(false), mRenderer(nullptr),
@@ -30,6 +33,15 @@ bool Game::initialize() {
     mRenderer = nullptr;
     return false;
   }
+
+  mInputSystem = new InputSystem();
+  if (!mInputSystem->initialize()) {
+    SDL_Log("Failed to initialize input system");
+    delete mInputSystem;
+    mInputSystem = nullptr;
+    return false;
+  }
+
   loadData();
   return true;
 }
@@ -43,9 +55,21 @@ void Game::runLoop() {
   }
 }
 
-void Game::shutdown() { mRenderer->shutdown(); }
+void Game::shutdown() {
+  unloadData();
+
+  mRenderer->shutdown();
+  delete mRenderer;
+
+  mInputSystem->shutdown();
+  delete mInputSystem;
+
+
+}
 
 void Game::processInput() {
+  mInputSystem->prepareForUpdate();
+
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -54,13 +78,24 @@ void Game::processInput() {
       break;
     }
   }
+
+  mInputSystem->update();
+
+  auto &state = mInputSystem->getState();
+  if (state.keyboard.getKeyState(SDL_SCANCODE_ESCAPE) == EReleased) {
+    mIsRunning = false;
+  }
+
+  for (auto &actor : mActors) {
+    actor->processInput(state);
+  }
 }
 
 void Game::updateGame() {
   while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
     ;
 
-  float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+  float deltaTime = static_cast<float>(SDL_GetTicks() - mTicksCount) / 1000.0f;
   if (deltaTime > 0.05f) {
     deltaTime = 0.05f;
   }
@@ -68,6 +103,7 @@ void Game::updateGame() {
 
   mUpdatingActor = true;
   for (auto &actor : mActors) {
+    actor->computeWorldTransformation();
     actor->update(deltaTime);
   }
   mUpdatingActor = false;
@@ -115,13 +151,31 @@ void Game::removeActor(Actor *actor) {
 void Game::loadData() {
   if (mRenderer) {
     mRenderer->loadShader("basicMesh", "shaders/basicMesh.vertex", "shaders/basicMesh.fragment");
-    auto *actor = new Actor(this);
-    actor->setPosition(glm::vec3(0.0f, 0.0f, 20.0f));
-    actor->setScale(glm::vec3(2.0f));
-//    actor->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+    auto *tree = new Actor(this);
+    tree->setPosition(glm::vec3(50.0f, 0.0f, 0.0f));
+    tree->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
 
-    auto *meshComponent = new MeshComponent(actor);
+    auto *tree2 = new Actor(this);
+    tree2->setPosition(glm::vec3(0.0f, 50.0f, 0.0f));
+    tree2->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+//    actor->setScale(glm::vec3(2.0f));
+//    tree->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+
+    auto *meshComponent = new MeshComponent(tree);
     meshComponent->setMesh(mRenderer->getMesh("assets/tree.obj"));
+
+    auto *meshComponent2 = new MeshComponent(tree2);
+    meshComponent2->setMesh(mRenderer->getMesh("assets/tree.obj"));
+
+    auto *player = new FPSActor(this);
+    player->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+
+  }
+}
+
+void Game::unloadData() {
+  while(!mActors.empty()) {
+    delete mActors.back();
   }
 }
 
