@@ -1,18 +1,18 @@
 #version 450 core
 
-uniform mat4 uTransformation;
-//uniform mat4 uViewProjection;
-uniform vec3 uColor;
+//uniform mat4 uTransformation;
+uniform mat4 uViewProjection;
+//uniform vec3 uColor;
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 color;
+layout(location = 1) in vec3 normal;
 
 out vec4 vertexColor;
 
 void main() {
     vec4 pos = vec4(position, 1.0);
 
-    gl_Position = uTransformation * pos;
+    gl_Position = uViewProjection * pos;
 
-    vertexColor = vec4(color, 1.0);
+    vertexColor = vec4(0.0, 0.0, 0.0, 1.0);
 }

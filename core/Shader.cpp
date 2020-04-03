@@ -34,10 +34,16 @@ bool Shader::load(const std::string &vertexShaderFile,
   glDeleteShader(mFragmentShader);
   glDeleteShader(mVertexShader);
 
+  mFragmentShader = 0;
+  mVertexShader = 0;
+
   return true;
 }
 
-void Shader::unload() { glDeleteProgram(mShaderProgram); }
+void Shader::unload() {
+  glDeleteProgram(mShaderProgram);
+  mShaderProgram = 0;
+}
 
 void Shader::setActive() { glUseProgram(mShaderProgram); }
 

@@ -10,6 +10,7 @@
 
 class Renderer;
 class Actor;
+class InputSystem;
 
 class Game {
 public:
@@ -30,6 +31,8 @@ public:
 private:
   void loadData();
 
+  void unloadData();
+
   void processInput();
 
   void updateGame();
@@ -47,6 +50,8 @@ private:
   std::vector<Actor *> mPendingActors;
 
   Uint32 mTicksCount;
+
+  InputSystem *mInputSystem = nullptr;
 };
 
 #endif // SANDBOX_GAME_H

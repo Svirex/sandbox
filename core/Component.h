@@ -6,6 +6,7 @@
 #define SANDBOX_COMPONENT_H
 
 class Actor;
+class InputState;
 
 class Component {
 public:
@@ -17,10 +18,11 @@ public:
 
   virtual void update(float deltaTime);
 
+  virtual void processInput(const InputState &input);
+
 protected:
   Actor *mOwner;
 
-private:
   int mUpdateOrder;
 };
 
