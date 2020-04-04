@@ -11,6 +11,8 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+#include "system/ObjectManager.h"
+
 class Game;
 class Component;
 class InputState;
@@ -60,6 +62,8 @@ public:
   glm::vec3 getForwardVector() const;
 
   glm::vec3 getLeftVector() const;
+
+  MANAGE(Actor)
 
 protected:
   virtual void tick(float deltaTime);

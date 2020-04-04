@@ -12,6 +12,8 @@
 #include <SDL2/SDL.h>
 #include <glm/mat4x4.hpp>
 
+#include "system/ObjectManager.h"
+
 class Game;
 class Shader;
 class Mesh;
@@ -43,6 +45,8 @@ public:
   void draw();
 
   void setViewMatrix(const glm::mat4 &view);
+
+  MANAGE(Renderer)
 
 private:
   SDL_Window *mWindow;

@@ -8,6 +8,7 @@
 #include <glm/mat4x4.hpp>
 
 #include "../Component.h"
+#include "../system/ObjectManager.h"
 
 
 class Mesh;
@@ -22,6 +23,8 @@ public:
   void setMesh(Mesh *mesh);
 
   void draw(Shader *shader, const glm::mat4 &view, const glm::mat4 &projection);
+
+  MANAGE(MeshComponent)
 
 private:
   Mesh *mMesh;

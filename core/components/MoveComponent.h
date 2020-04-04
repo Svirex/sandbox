@@ -6,6 +6,7 @@
 #define SANDBOX_MOVECOMPONENT_H
 
 #include "../Component.h"
+#include "../system/ObjectManager.h"
 
 class Actor;
 
@@ -20,6 +21,8 @@ public:
   void setAngularSpeed(float speed);
 
   void update(float deltaTime) override;
+
+  MANAGE(MoveComponent)
 
 private:
   float mForwardSpeed = 0.0f;

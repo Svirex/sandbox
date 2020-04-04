@@ -9,6 +9,8 @@
 #include <SDL2/SDL_scancode.h>
 #include <glm/glm.hpp>
 
+#include "system/ObjectManager.h"
+
 enum ButtonState { ENone, EPressed, EHeld, EReleased };
 
 enum MouseButtons {
@@ -90,6 +92,8 @@ public:
   void update();
 
   const InputState &getState() const;
+
+  MANAGE(InputSystem)
 
 private:
 

@@ -42,7 +42,7 @@ bool Renderer::initialize(float screenWidth, float screenHeight) {
   mWindow = SDL_CreateWindow("Sandbox", 100, 100, static_cast<int>(mScreenWidth),
                              static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
   if (!mWindow) {
-    SDL_Log("Failed to create window: %s", SDL_GetError());
+    SDL_Log("Failed to created window: %s", SDL_GetError());
     return false;
   }
 

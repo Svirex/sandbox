@@ -5,6 +5,8 @@
 #ifndef SANDBOX_COMPONENT_H
 #define SANDBOX_COMPONENT_H
 
+#include "system/ObjectManager.h"
+
 class Actor;
 class InputState;
 
@@ -19,6 +21,8 @@ public:
   virtual void update(float deltaTime);
 
   virtual void processInput(const InputState &input);
+
+  MANAGE(Component)
 
 protected:
   Actor *mOwner;

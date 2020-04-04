@@ -8,6 +8,7 @@
 #include <glm/gtc/constants.hpp>
 
 #include "CameraComponent.h"
+#include "../system/ObjectManager.h"
 
 class Actor;
 
@@ -18,6 +19,8 @@ public:
   void update(float deltaTime) override;
 
   void setPitchSpeed(float speed);
+
+  MANAGE(FPSCamera)
 
 private:
 

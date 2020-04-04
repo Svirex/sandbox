@@ -7,6 +7,8 @@
 
 #include <GL/glew.h>
 
+#include "system/ObjectManager.h"
+
 class VertexArray {
 public:
   VertexArray(const GLfloat *vertex, size_t nVertex, const GLuint *indices, size_t nIndices);
@@ -16,6 +18,8 @@ public:
   void setActive();
 
   size_t getNumIndices();
+
+  MANAGE(VertexArray)
 
 private:
   GLuint mVertexArray;
