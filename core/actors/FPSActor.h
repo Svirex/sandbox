@@ -6,6 +6,7 @@
 #define SANDBOX_FPSACTOR_H
 
 #include "../Actor.h"
+#include "../system/ObjectManager.h"
 
 class MoveComponent;
 class Game;
@@ -16,6 +17,9 @@ public:
   explicit FPSActor(Game *game);
 
   void actorInput(const InputState &input) override;
+
+  MANAGE(FPSActor)
+
 protected:
   void tick(float deltaTime) override;
 

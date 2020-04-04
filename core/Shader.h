@@ -10,6 +10,8 @@
 #include <GL/glew.h>
 #include <glm/mat4x4.hpp>
 
+#include "system/ObjectManager.h"
+
 class Shader {
 public:
   Shader();
@@ -25,6 +27,8 @@ public:
   void setUniform(const char *uniform, const glm::mat4 &matrix);
 
   void setUniform(const char *uniform, const glm::vec3 &vector);
+
+  MANAGE(Shader)
 
 private:
   GLuint mVertexShader;

@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include "system/ObjectManager.h"
+
 
 class Renderer;
 class VertexArray;
@@ -24,6 +26,8 @@ public:
   Shader *getShader() const;
 
   VertexArray *getVertexArray() const;
+
+  MANAGE(Mesh)
 
 private:
   VertexArray *mVertexArray = nullptr;

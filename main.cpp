@@ -1,6 +1,7 @@
 #include <cstdlib>
 
 #include "core/Game.h"
+#include "core/system/ObjectManager.h"
 
 
 int main() {
@@ -10,5 +11,6 @@ int main() {
     game.runLoop();
   }
   game.shutdown();
+  OBJECT_MANAGER_STAT;
   return EXIT_SUCCESS;
 }
