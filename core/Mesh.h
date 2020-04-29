@@ -6,6 +6,9 @@
 #define SANDBOX_MESH_H
 
 #include <string>
+#include <vector>
+
+#include <GL/glew.h>
 
 #include "system/ObjectManager.h"
 
@@ -19,22 +22,36 @@ class Mesh {
 public:
   Mesh() = default;
 
+//  Mesh(const GLfloat *vertex, size_t nVertex);
+
   ~Mesh();
 
-  bool load(const std::string &filePath, Renderer *renderer);
+//  bool load(const std::string &filePath, Renderer *renderer);
 
-  Shader *getShader() const;
+//  Shader *getShader() const;
 
   VertexArray *getVertexArray() const;
+
+  std::vector<float> &getVertexCoordinateRef();
+
+  std::vector<unsigned> &getVertexIndicesRef();
+
+  bool loadToGPU();
+
+  bool unloadFromGPU();
 
   MANAGE(Mesh)
 
 private:
   VertexArray *mVertexArray = nullptr;
 
-  Shader *mShader = nullptr;
+//  Shader *mShader = nullptr;
 
-  MeshLoader *mMeshLoader = nullptr;
+//  MeshLoader *mMeshLoader = nullptr;
+
+  std::vector<float> mVertexCoordinate;
+
+  std::vector<unsigned> mVertexIndices;
 };
 
 #endif // SANDBOX_MESH_H

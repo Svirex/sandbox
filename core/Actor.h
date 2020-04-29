@@ -17,8 +17,14 @@ class Game;
 class Component;
 class InputState;
 
+/**
+ * Класс, реализующий любой объект в мире
+ */
 class Actor {
 public:
+  /**
+   * Состояние актора
+   */
   enum State {
     EActive,
     EPaused,
@@ -43,6 +49,10 @@ public:
 
   void removeComponent(Component *component);
 
+  /**
+   * Обновление состояние актора
+   *
+   */
   void update(float deltaTime);
 
   void setState(State state);
@@ -51,12 +61,25 @@ public:
 
   Game *getGame() const;
 
+  /**
+   * Получение матрицы трансформации в мировом пространстве
+   *
+   */
   glm::mat4 getWorldTransformation();
 
+  /**
+   * Пересчитать матрицу трансформации
+   */
   void computeWorldTransformation();
 
+  /**
+   * Обработка ввода
+   */
   void processInput(const InputState &input);
 
+  /**
+   * Обработка специфичного для актора ввода
+   */
   virtual void actorInput(const InputState &input);
 
   glm::vec3 getForwardVector() const;
@@ -66,27 +89,40 @@ public:
   MANAGE(Actor)
 
 protected:
+
+  /**
+   * Специфичное для актора обновление состояние
+   *
+   * Выполняется на каждом фрейме
+   *
+   * @param deltaTime Дельта времени после предыдущего фрейма
+   */
   virtual void tick(float deltaTime);
 
 
 private:
-  glm::vec3 mPosition;
+  glm::vec3 mPosition; /// Позиция актора
 
-  glm::quat mRotation;
+  glm::quat mRotation; /// Поворот актора
 
-  glm::vec3 mScale;
+  glm::vec3 mScale; /// Масштабирование
 
-  Game *mGame;
+  Game *mGame; /// Указатель на объект игры
 
-  std::vector<Component *> mComponents;
+  std::vector<Component *> mComponents; /// Вектор компонент актора
 
-  State mState;
+  State mState; /// Состояние актора
 
+  bool mRecomputeWorldTransformation; /// Пересчитать ли матрицу трансформации
+
+  glm::mat4 mWorldTransformation; /// Матрица транформации актора
+
+  /**
+   * Обновление компонент актора
+   *
+   * @param deltaTime
+   */
   void updateComponents(float deltaTime);
-
-  bool mRecomputeWorldTransformation;
-
-  glm::mat4 mWorldTransformation;
 };
 
 #endif // SANDBOX_ACTOR_H

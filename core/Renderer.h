@@ -34,7 +34,7 @@ public:
                   const std::string &fragmentShaderFile);
 
 //  void addMesh(std::string &fileName, Mesh *mesh);
-  Mesh *getMesh(const std::string &filePath);
+//  Mesh *getMesh(const std::string &filePath);
 
   void addMeshComponent(MeshComponent *meshComponent);
 
