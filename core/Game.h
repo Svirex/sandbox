@@ -11,6 +11,7 @@
 class Renderer;
 class Actor;
 class InputSystem;
+class ResourceManager;
 
 class Game {
 public:
@@ -29,7 +30,7 @@ public:
   Renderer *getRenderer() const;
 
 private:
-  void loadData();
+  bool loadData();
 
   void unloadData();
 
@@ -43,7 +44,7 @@ private:
 
   bool mUpdatingActor;
 
-  Renderer *mRenderer;
+  Renderer *mRenderer = nullptr;
 
   std::vector<Actor *> mActors;
 
@@ -52,6 +53,8 @@ private:
   Uint32 mTicksCount;
 
   InputSystem *mInputSystem = nullptr;
+
+  ResourceManager *mResourceManager = nullptr;
 };
 
 #endif // SANDBOX_GAME_H

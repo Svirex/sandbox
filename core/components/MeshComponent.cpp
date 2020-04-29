@@ -5,14 +5,15 @@
 #include <iostream>
 
 #include <glm/gtx/string_cast.hpp>
+#include "spdlog/spdlog.h"
 
-#include "MeshComponent.h"
 #include "../Actor.h"
 #include "../Game.h"
 #include "../Mesh.h"
 #include "../Renderer.h"
 #include "../Shader.h"
 #include "../VertexArray.h"
+#include "MeshComponent.h"
 
 MeshComponent::MeshComponent(Actor *owner) : Component(owner), mMesh(nullptr) {
   mOwner->getGame()->getRenderer()->addMeshComponent(this);
@@ -28,22 +29,15 @@ void MeshComponent::draw(Shader *shader, const glm::mat4 &view,
                          const glm::mat4 &projection) {
   if (mMesh) {
     auto *activeShader = shader;
-    if (!activeShader) {
-      activeShader = mMesh->getShader();
-    }
     if (activeShader) {
       activeShader->setActive();
-      auto matrix = projection * view * mOwner->getWorldTransformation();
       activeShader->setUniform("uViewProjection",
-                               projection * view * mOwner->getWorldTransformation());
-//      activeShader->setUniform("uColor", glm::vec3(1.0f, 1.0f, 1.0f));
+                               projection * view *
+                                   mOwner->getWorldTransformation());
       VertexArray *vertexArray = mMesh->getVertexArray();
       vertexArray->setActive();
-      glDrawElements(GL_TRIANGLES, vertexArray->getNumIndices(),
-                     GL_UNSIGNED_INT, nullptr);
-//      activeShader->setUniform("uColor", glm::vec3(0.0f, 0.0f, 0.0f));
-//      glDrawElements(GL_LINES, vertexArray->getNumIndices(), GL_UNSIGNED_INT,
-//                     nullptr);
+        glDrawElements(GL_TRIANGLES, vertexArray->getNumIndices(),
+                       GL_UNSIGNED_INT, nullptr);
     }
   }
 }

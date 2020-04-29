@@ -101,22 +101,22 @@ void Renderer::shutdown() {
 //  mMeshes[]
 //}
 
-Mesh *Renderer::getMesh(const std::string &filePath) {
-  Mesh *mesh = nullptr;
-  auto iter = mMeshes.find(filePath);
-  if(iter != mMeshes.end()) {
-    mesh = iter->second;
-  } else {
-    mesh = new Mesh();
-    if(mesh->load(filePath, this)) {
-      mMeshes.emplace(filePath, mesh);
-    } else {
-      delete mesh;
-      mesh = nullptr;
-    }
-  }
-  return mesh;
-}
+//Mesh *Renderer::getMesh(const std::string &filePath) {
+//  Mesh *mesh = nullptr;
+//  auto iter = mMeshes.find(filePath);
+//  if(iter != mMeshes.end()) {
+//    mesh = iter->second;
+//  } else {
+//    mesh = new Mesh();
+//    if(mesh->load(filePath, this)) {
+//      mMeshes.emplace(filePath, mesh);
+//    } else {
+//      delete mesh;
+//      mesh = nullptr;
+//    }
+//  }
+//  return mesh;
+//}
 
 void Renderer::addMeshComponent(MeshComponent *meshComponent) {
   mMeshComponents.emplace_back(meshComponent);
@@ -132,9 +132,10 @@ void Renderer::draw() {
   glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
+//  glViewport(120, 120, 200, 200);
 
   for (auto &meshComponent : mMeshComponents) {
-    meshComponent->draw(nullptr, mView, mProjection);
+    meshComponent->draw(getShader("basicMesh"), mView, mProjection);
   }
 
   glDisable(GL_DEPTH_TEST);

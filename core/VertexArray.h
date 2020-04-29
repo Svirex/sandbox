@@ -13,24 +13,30 @@ class VertexArray {
 public:
   VertexArray(const GLfloat *vertex, size_t nVertex, const GLuint *indices, size_t nIndices);
 
+
   ~VertexArray();
 
   void setActive();
 
   size_t getNumIndices();
 
+  size_t getNumVertices();
+
   MANAGE(VertexArray)
 
 private:
-  GLuint mVertexArray;
+  GLuint mVertexArray = 0;
 
-  GLuint mVertexBuffer;
+  GLuint mVertexBuffer = 0;
 
-  GLuint mIndexBuffer;
+  GLuint mIndexBuffer = 0;
 
-  size_t mNumVertex;
+  size_t mNumVertex = 0;
 
-  size_t mNumIndices;
+  size_t mNumIndices = 0;
+
+
+  unsigned mLastAttribPointerNum = 0;
 };
 
 #endif // SANDBOX_VERTEXARRAY_H
