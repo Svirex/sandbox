@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <glm/ext/quaternion_trigonometric.hpp>
 #include "spdlog/spdlog.h"
 

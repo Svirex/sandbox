@@ -6,7 +6,7 @@
 #define SANDBOX_GAME_H
 
 #include <vector>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class Renderer;
 class Actor;

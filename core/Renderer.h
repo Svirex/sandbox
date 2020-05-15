@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <glm/mat4x4.hpp>
 
 #include "system/ObjectManager.h"

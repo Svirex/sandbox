@@ -20,8 +20,8 @@ VertexArray::VertexArray(const GLfloat *vertex, size_t nVertex,
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, mNumIndices * sizeof(GLuint), indices,
                GL_STATIC_DRAW);
 
-  glEnableVertexAttribArray(mLastAttribPointerNum);
-  glVertexAttribPointer(mLastAttribPointerNum, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+  glEnableVertexAttribArray(10);
+  glVertexAttribPointer(10, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
 
   ++mLastAttribPointerNum;
 

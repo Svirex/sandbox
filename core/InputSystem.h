@@ -5,8 +5,8 @@
 #ifndef SANDBOX_INPUTSYSTEM_H
 #define SANDBOX_INPUTSYSTEM_H
 
-#include <SDL2/SDL_mouse.h>
-#include <SDL2/SDL_scancode.h>
+#include <SDL_mouse.h>
+#include <SDL_scancode.h>
 #include <glm/glm.hpp>
 
 #include "system/ObjectManager.h"

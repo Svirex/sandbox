@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"

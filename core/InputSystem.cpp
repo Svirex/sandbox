@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iterator>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "InputSystem.h"
 

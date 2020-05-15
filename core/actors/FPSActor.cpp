@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include <SDL2/SDL_scancode.h>
+#include <SDL_scancode.h>
 #include <glm/gtc/constants.hpp>
 
 #include "../Game.h"
