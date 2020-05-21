@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <iostream>
+#include <string>
 
 #include <SDL.h>
 #include <glm/ext/quaternion_trigonometric.hpp>
@@ -45,6 +46,12 @@ bool Game::initialize() {
   }
 
   mResourceManager = new ResourceManager(this);
+
+  if (!mResourceManager->init()) {
+    delete mResourceManager;
+    mResourceManager = nullptr;
+    return false;
+  }
 
   if(!loadData()){
     spdlog::error("Couldn't load data");
@@ -158,7 +165,7 @@ void Game::removeActor(Actor *actor) {
 
 bool Game::loadData() {
   if (mRenderer) {
-    mRenderer->loadShader("basicMesh", "shaders/basicMesh.vertex", "shaders/basicMesh.fragment");
+//    mRenderer->loadShader("basicMesh", "shaders/basicMesh.vertex", "shaders/basicMesh.fragment");
     auto tree = new Actor(this);
     tree->setPosition(glm::vec3(50.0f, 0.0f, 0.0f));
     tree->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
@@ -168,8 +175,8 @@ bool Game::loadData() {
     tree2->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
 
     auto *tree3 = new Actor(this);
-    tree3->setPosition(glm::vec3(0.0f, 50.0f, 0.0f));
-    tree3->setScale(glm::vec3(100));
+    tree3->setPosition(glm::vec3(2.0f, 0.0f, 0.0f));
+    tree3->setScale(glm::vec3(20));
     tree3->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
 //    actor->setScale(glm::vec3(2.0f));
 //    tree->setRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
@@ -178,11 +185,12 @@ bool Game::loadData() {
       return false;
     }
 
-    if(!mResourceManager->loadMeshesFromFile("assets/rock/rock.obj")) {
+    if(!mResourceManager->loadMeshesFromFile("assets/rock/rock2.obj")) {
       return false;
     }
 
-    std::string meshName = "SpruceTree1_Cylinder";
+
+    std::string  meshName = "SpruceTree1_Cylinder";
     auto *meshComponent = new MeshComponent(tree);
     auto *mesh = mResourceManager->getMesh(meshName);
     if(!mesh) {
@@ -199,7 +207,7 @@ bool Game::loadData() {
     }
     meshComponent2->setMesh(mesh);
 
-    meshName = "rock_Mesh_rock";
+    meshName = "rock_Mesh.001_rock_Mesh.001_rock.001";
     auto *meshComponent3 = new MeshComponent(tree3);
     mesh = mResourceManager->getMesh(meshName);
     if(!mesh) {
@@ -209,9 +217,18 @@ bool Game::loadData() {
     meshComponent3->setMesh(mesh);
 
     auto *player = new FPSActor(this);
-    player->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+    player->setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 
-    mResourceManager->loadMeshesToGPU();
+    if (mResourceManager->loadMeshesToGPU()) {
+      spdlog::trace("All load to GPU");
+    } else {
+      spdlog::error("Couldn't load Meshes to GPU");
+      return false;
+    }
+
+//    for (int i = 0; i < 10000; ++i);
+
+//    mResourceManager->showShaderCode();
 
   } else {
     spdlog::error("mRenderer not init");
@@ -221,6 +238,7 @@ bool Game::loadData() {
 }
 
 void Game::unloadData() {
+//  mResourceManager->showShaderCode();
   mResourceManager->unloadMeshesFromGPU();
   while(!mActors.empty()) {
     delete mActors.back();

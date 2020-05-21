@@ -18,9 +18,13 @@ public:
 
   void setActive();
 
+  void deactivate();
+
   size_t getNumIndices();
 
   size_t getNumVertices();
+
+  void setTextureCoords(const GLfloat *textureCoords);
 
   MANAGE(VertexArray)
 
@@ -31,12 +35,11 @@ private:
 
   GLuint mIndexBuffer = 0;
 
+  GLuint mTextureCoordsBuffer = 0;
+
   size_t mNumVertex = 0;
 
   size_t mNumIndices = 0;
-
-
-  unsigned mLastAttribPointerNum = 0;
 };
 
 #endif // SANDBOX_VERTEXARRAY_H

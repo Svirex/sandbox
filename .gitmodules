@@ -1,3 +1,6 @@
 [submodule "external/assimp"]
 	path = external/assimp
 	url = git@github.com:assimp/assimp.git
+[submodule "third_party/SOIL"]
+	path = third_party/SOIL
+	url = git@github.com:burtonageo/SOIL.git

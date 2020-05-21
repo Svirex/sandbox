@@ -62,37 +62,37 @@ bool Renderer::initialize(float screenWidth, float screenHeight) {
   return true;
 }
 
-bool Renderer::loadShader(const std::string &shaderName,
-                          const std::string &vertexShaderFile,
-                          const std::string &fragmentShaderFile) {
-  auto *shader = new Shader();
-  if (!shader->load(vertexShaderFile, fragmentShaderFile)) {
-    delete shader;
-    return false;
-  }
+//bool Renderer::loadShader(const std::string &shaderName,
+//                          const std::string &vertexShaderFile,
+//                          const std::string &fragmentShaderFile) {
+//  auto *shader = new Shader();
+//  if (!shader->load(vertexShaderFile, fragmentShaderFile)) {
+//    delete shader;
+//    return false;
+//  }
+//
+//  mShaders[shaderName] = shader;
+//
+//  return true;
+//}
 
-  mShaders[shaderName] = shader;
-
-  return true;
-}
-
-Shader *Renderer::getShader(const std::string &shaderName) {
-  auto iter = mShaders.find(shaderName);
-  if(iter != mShaders.end()) {
-    return iter->second;
-  }
-  return nullptr;
-}
+//Shader *Renderer::getShader(const std::string &shaderName) {
+//  auto iter = mShaders.find(shaderName);
+//  if(iter != mShaders.end()) {
+//    return iter->second;
+//  }
+//  return nullptr;
+//}
 
 void Renderer::shutdown() {
-  for (auto &shader : mShaders) {
-    shader.second->unload();
-    delete shader.second;
-  }
+//  for (auto &shader : mShaders) {
+//    shader.second->unload();
+//    delete shader.second;
+//  }
 
-  for (auto &mesh: mMeshes) {
-    delete mesh.second;
-  }
+//  for (auto &mesh: mMeshes) {
+//    delete mesh.second;
+//  }
   SDL_GL_DeleteContext(mContext);
   SDL_DestroyWindow(mWindow);
 }
@@ -135,7 +135,7 @@ void Renderer::draw() {
 //  glViewport(120, 120, 200, 200);
 
   for (auto &meshComponent : mMeshComponents) {
-    meshComponent->draw(getShader("basicMesh"), mView, mProjection);
+    meshComponent->draw(mView, mProjection);
   }
 
   glDisable(GL_DEPTH_TEST);

@@ -14,13 +14,13 @@
 
 class Shader {
 public:
-  Shader();
+  Shader(std::string vertexCode, std::string fragmentCode);
 
-  ~Shader() = default;
+  ~Shader();
 
-  bool load(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
+//  bool load(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
 
-  void unload();
+//  void unload();
 
   void setActive();
 
@@ -28,16 +28,28 @@ public:
 
   void setUniform(const char *uniform, const glm::vec3 &vector);
 
+  bool loadToGPU();
+
+  void unloadFromGPU();
+
+  void getSource(std::string &vertexCode, std::string &fragmentCode);
+
+  void getSourceIn(std::string &vertexCode, std::string &fragmentCode);
+
   MANAGE(Shader)
 
 private:
-  GLuint mVertexShader;
+  GLuint mVertexShader = 0;
 
-  GLuint mFragmentShader;
+  GLuint mFragmentShader = 0;
 
-  GLuint mShaderProgram;
+  GLuint mShaderProgram = 0;
 
-  bool compileShader(const std::string &filePath, GLenum shaderType, GLuint &outShader);
+  const std::string mVertexCode;
+
+  const std::string mFragmentCode;
+
+  bool compileShader(const std::string &shaderCode, GLenum shaderType, GLuint &outShader);
 
   bool isCompiled(GLuint shader);
 

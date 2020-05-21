@@ -24,16 +24,16 @@ void FPSActor::actorInput(const InputState &input) {
   float forwardSpeed = 0.0f;
   float leftSpeed = 0.0f;
   if (input.keyboard.getKeyValue(SDL_SCANCODE_W)) {
-    forwardSpeed += 100.0f;
+    forwardSpeed += 10.0f;
   }
   if (input.keyboard.getKeyValue(SDL_SCANCODE_S)) {
-    forwardSpeed -= 100.0f;
+    forwardSpeed -= 10.0f;
   }
   if (input.keyboard.getKeyValue(SDL_SCANCODE_A)) {
-    leftSpeed += 100.0f;
+    leftSpeed += 10.0f;
   }
   if (input.keyboard.getKeyValue(SDL_SCANCODE_D)) {
-    leftSpeed -= 100.0f;
+    leftSpeed -= 10.0f;
   }
 //  std::cout << forwardSpeed << " " << leftSpeed << std::endl;
   mMoveComponent->setForwardSpeed(forwardSpeed);

@@ -1,9 +1,22 @@
-#version 450 core
+#ifdef HAS_TEXTURE_COORD
+    in vec2 out_tex_coord;
+#endif
 
-in vec4 vertexColor;
+#ifdef HAS_DIFFUSE_COLOR
+    const vec4 diffuseColor = DIFFUSE_COLOR_VECTOR;
+#endif
+
+#ifdef HAS_DIFFUSE_TEXTURE
+    layout (binding = DIFFUSE_TEXTURE_LAYOUT_BINDING) uniform sampler2D diffuseSampler;
+#endif
+
 
 out vec4 color;
 
 void main() {
-    color = vertexColor;
+    #if defined(HAS_DIFFUSE_TEXTURE) && defined(HAS_TEXTURE_COORD)
+        color = texture(diffuseSampler, out_tex_coord);
+    #else
+        color = diffuseColor;
+    #endif
 }

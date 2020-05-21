@@ -3,33 +3,31 @@ project(sandbox)
 
 set(CMAKE_CXX_STANDARD 11)
 
-#include_directories(~/hdd/external_libs/glm/)
-#include_directories(~/hdd/external_libs/tinyobjloader)
-#include_directories(~/hdd/external_libs/spdlog/include/spdlog)
-
 find_package(OpenGL REQUIRED)
-#find_package(GLUT REQUIRED)
-#find_package(GLEW REQUIRED)
+
 
 add_subdirectory(third_party/assimp-5.0.1)
 add_subdirectory(third_party/SDL2-2.0.12)
 add_subdirectory(third_party/freeglut-3.2.1)
 add_subdirectory(third_party/glew-cmake-master)
+add_subdirectory(third_party/SOIL)
+
 
 include_directories(
         third_party/SDL2-2.0.12/include
         third_party/glew-cmake-master/include
         third_party/glm
         third_party/spdlog/include
+        third_party/SOIL
 )
 
-#find_package(assimp REQUIRED)
 
-#find_package(SDL2 REQUIRED)
+
+include_directories(shaders)
 
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SOIL_TARGET_INCLUDE_DIR})
 
 
 add_executable(sandbox
@@ -66,10 +64,10 @@ add_executable(sandbox
         core/system/ObjectManager.cpp
         core/system/ObjectManager.h
         core/ResourceManager.cpp
-        core/ResourceManager.h)
+        core/ResourceManager.h core/Texture.cpp core/Texture.h core/Material.cpp core/Material.h core/consts.h core/ShaderBuilder.cpp core/ShaderBuilder.h)
 
 
-target_link_libraries(sandbox ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} assimp SDL2 libglew_shared)
+target_link_libraries(sandbox ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} assimp SDL2 libglew_shared soil)
 
 add_custom_command(TARGET sandbox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

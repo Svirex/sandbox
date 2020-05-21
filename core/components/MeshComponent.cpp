@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include <glm/gtx/string_cast.hpp>
 #include "spdlog/spdlog.h"
+#include <glm/gtx/string_cast.hpp>
 
 #include "../Actor.h"
 #include "../Game.h"
@@ -25,19 +25,15 @@ MeshComponent::~MeshComponent() {
 
 void MeshComponent::setMesh(Mesh *mesh) { mMesh = mesh; }
 
-void MeshComponent::draw(Shader *shader, const glm::mat4 &view,
-                         const glm::mat4 &projection) {
+void MeshComponent::draw(const glm::mat4 &view, const glm::mat4 &projection) {
   if (mMesh) {
-    auto *activeShader = shader;
-    if (activeShader) {
-      activeShader->setActive();
-      activeShader->setUniform("uViewProjection",
-                               projection * view *
-                                   mOwner->getWorldTransformation());
-      VertexArray *vertexArray = mMesh->getVertexArray();
-      vertexArray->setActive();
-        glDrawElements(GL_TRIANGLES, vertexArray->getNumIndices(),
-                       GL_UNSIGNED_INT, nullptr);
+//    spdlog::trace("Draw {} mesh", mMesh->getName());
+    auto *shader = mMesh->getShader();
+    if (shader) {
+      shader->setActive();
+      shader->setUniform("uViewProjection",
+                         projection * view * mOwner->getWorldTransformation());
+      mMesh->draw();
     }
   }
 }

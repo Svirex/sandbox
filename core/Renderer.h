@@ -29,9 +29,9 @@ public:
 
   void shutdown();
 
-  bool loadShader(const std::string &shaderName,
-                  const std::string &vertexShaderFile,
-                  const std::string &fragmentShaderFile);
+//  bool loadShader(const std::string &shaderName,
+//                  const std::string &vertexShaderFile,
+//                  const std::string &fragmentShaderFile);
 
 //  void addMesh(std::string &fileName, Mesh *mesh);
 //  Mesh *getMesh(const std::string &filePath);
@@ -40,7 +40,7 @@ public:
 
   void removeMeshComponent(MeshComponent *meshComponent);
 
-  Shader *getShader(const std::string &shaderName);
+//  Shader *getShader(const std::string &shaderName);
 
   void draw();
 
@@ -49,19 +49,19 @@ public:
   MANAGE(Renderer)
 
 private:
-  SDL_Window *mWindow;
+  SDL_Window *mWindow = nullptr;
 
-  Game *mGame;
+  Game *mGame = nullptr;
 
-  float mScreenWidth;
+  float mScreenWidth = 0.0f;
 
-  float mScreenHeight;
+  float mScreenHeight = 0.0f;
 
   SDL_GLContext mContext;
 
-  std::unordered_map<std::string, Shader *> mShaders;
+//  std::unordered_map<std::string, Shader *> mShaders;
 
-  std::unordered_map<std::string, Mesh *> mMeshes;
+//  std::unordered_map<std::string, Mesh *> mMeshes;
 
   std::vector<MeshComponent *> mMeshComponents;
 
